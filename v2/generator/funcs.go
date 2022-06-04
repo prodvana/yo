@@ -404,6 +404,13 @@ func (a *Generator) nullcheck(field *models.Field) string {
 		"spanner.NullTime",
 		"spanner.NullDate":
 		return fmt.Sprintf("%s.IsNull()", paramName)
+	case "*int64",
+		"*string",
+		"*float64",
+		"*bool",
+		"*time.Time",
+		"*civil.Date":
+		return fmt.Sprintf("%s == nil", paramName)
 	}
 
 	return fmt.Sprintf("yo, ok := %s.(yoIsNull); ok && yo.IsNull()", paramName)
