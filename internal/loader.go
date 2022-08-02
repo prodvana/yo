@@ -334,13 +334,20 @@ func (tl *TypeLoader) buildIndexFuncName(ixTpl *Index) string {
 	funcName = funcName + "By"
 
 	// add param names
+	// PRODVANA MODIFICATION: better naming for indexes with storing clause
 	paramNames := make([]string, 0, len(ixTpl.Fields))
-	for _, f := range ixTpl.StoringFields {
-		paramNames = append(paramNames, f.Name)
-	}
 	for _, f := range ixTpl.Fields {
 		paramNames = append(paramNames, f.Name)
 	}
+	funcName = funcName + strings.Join(paramNames, "")
+	if len(ixTpl.StoringFields) > 0 {
+		paramNames := make([]string, 0, len(ixTpl.StoringFields))
+		for _, f := range ixTpl.StoringFields {
+			paramNames = append(paramNames, f.Name)
+		}
+		funcName = funcName + "Storing" + strings.Join(paramNames, "")
+	}
+	// END PRODVANA MODIFICATION: better naming for indexes with storing clause
 
 	return funcName + strings.Join(paramNames, "")
 }
