@@ -33,14 +33,15 @@ type Field struct {
 
 // Type is a template item for a type.
 type Type struct {
-	Name             string
-	Schema           string
-	PrimaryKey       *Field
-	PrimaryKeyFields []*Field
-	Fields           []*Field
-	ReadableFields   []*Field
-	Table            *models.Table
-	Indexes          []*Index
+	Name                string
+	Schema              string
+	PrimaryKey          *Field
+	PrimaryKeyFields    []*Field
+	Fields              []*Field
+	ReadableFields      []*Field
+	Table               *models.Table
+	Indexes             []*Index
+	HasUnreadableFields bool
 }
 
 // Index is a template item for a index into a table.

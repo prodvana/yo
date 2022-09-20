@@ -118,11 +118,12 @@ func (tl *TypeLoader) LoadTable(args *ArgType) (map[string]*Type, error) {
 
 		// create template
 		typeTpl := &Type{
-			Name:           SingularizeIdentifier(tl.inflector, ti.TableName),
-			Schema:         "",
-			Fields:         []*Field{},
-			ReadableFields: []*Field{},
-			Table:          ti,
+			Name:                SingularizeIdentifier(tl.inflector, ti.TableName),
+			Schema:              "",
+			Fields:              []*Field{},
+			ReadableFields:      []*Field{},
+			Table:               ti,
+			HasUnreadableFields: false,
 		}
 
 		// process columns
@@ -137,6 +138,7 @@ func (tl *TypeLoader) LoadTable(args *ArgType) (map[string]*Type, error) {
 
 		for _, field := range typeTpl.Fields {
 			if field.Col.DataType == "JSON" {
+				typeTpl.HasUnreadableFields = true
 				continue
 			}
 			typeTpl.ReadableFields = append(typeTpl.ReadableFields, field)
