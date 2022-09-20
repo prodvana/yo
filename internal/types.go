@@ -38,6 +38,7 @@ type Type struct {
 	PrimaryKey       *Field
 	PrimaryKeyFields []*Field
 	Fields           []*Field
+	ReadableFields   []*Field
 	Table            *models.Table
 	Indexes          []*Index
 }
