@@ -255,11 +255,11 @@ func FindCompositePrimaryKeysByCompositePrimaryKeysByError(ctx context.Context, 
 
 // ReadCompositePrimaryKeysByCompositePrimaryKeysByError retrieves multiples rows from 'CompositePrimaryKeys' by KeySet as a slice.
 //
-// This does not retrives all columns of 'CompositePrimaryKeys' because an index has only columns
+// This does not retrieve all columns of 'CompositePrimaryKeys' because an index has only columns
 // used for primary key, index key and storing columns. If you need more columns, add storing
 // columns or Read by primary key or Query with join.
 //
-// Generated from unique index 'CompositePrimaryKeysByError'.
+// Generated from index 'CompositePrimaryKeysByError'.
 func ReadCompositePrimaryKeysByCompositePrimaryKeysByError(ctx context.Context, db YODB, keys spanner.KeySet) ([]*CompositePrimaryKey, error) {
 	var res []*CompositePrimaryKey
 	columns := []string{
@@ -330,11 +330,11 @@ func FindCompositePrimaryKeysByCompositePrimaryKeysByError2(ctx context.Context,
 
 // ReadCompositePrimaryKeysByCompositePrimaryKeysByError2 retrieves multiples rows from 'CompositePrimaryKeys' by KeySet as a slice.
 //
-// This does not retrives all columns of 'CompositePrimaryKeys' because an index has only columns
+// This does not retrieve all columns of 'CompositePrimaryKeys' because an index has only columns
 // used for primary key, index key and storing columns. If you need more columns, add storing
 // columns or Read by primary key or Query with join.
 //
-// Generated from unique index 'CompositePrimaryKeysByError2'.
+// Generated from index 'CompositePrimaryKeysByError2'.
 func ReadCompositePrimaryKeysByCompositePrimaryKeysByError2(ctx context.Context, db YODB, keys spanner.KeySet) ([]*CompositePrimaryKey, error) {
 	var res []*CompositePrimaryKey
 	columns := []string{
@@ -406,11 +406,11 @@ func FindCompositePrimaryKeysByCompositePrimaryKeysByError3(ctx context.Context,
 
 // ReadCompositePrimaryKeysByCompositePrimaryKeysByError3 retrieves multiples rows from 'CompositePrimaryKeys' by KeySet as a slice.
 //
-// This does not retrives all columns of 'CompositePrimaryKeys' because an index has only columns
+// This does not retrieve all columns of 'CompositePrimaryKeys' because an index has only columns
 // used for primary key, index key and storing columns. If you need more columns, add storing
 // columns or Read by primary key or Query with join.
 //
-// Generated from unique index 'CompositePrimaryKeysByError3'.
+// Generated from index 'CompositePrimaryKeysByError3'.
 func ReadCompositePrimaryKeysByCompositePrimaryKeysByError3(ctx context.Context, db YODB, keys spanner.KeySet) ([]*CompositePrimaryKey, error) {
 	var res []*CompositePrimaryKey
 	columns := []string{
@@ -484,11 +484,11 @@ func FindCompositePrimaryKeysByCompositePrimaryKeysByXY(ctx context.Context, db 
 
 // ReadCompositePrimaryKeysByCompositePrimaryKeysByXY retrieves multiples rows from 'CompositePrimaryKeys' by KeySet as a slice.
 //
-// This does not retrives all columns of 'CompositePrimaryKeys' because an index has only columns
+// This does not retrieve all columns of 'CompositePrimaryKeys' because an index has only columns
 // used for primary key, index key and storing columns. If you need more columns, add storing
 // columns or Read by primary key or Query with join.
 //
-// Generated from unique index 'CompositePrimaryKeysByXY'.
+// Generated from index 'CompositePrimaryKeysByXY'.
 func ReadCompositePrimaryKeysByCompositePrimaryKeysByXY(ctx context.Context, db YODB, keys spanner.KeySet) ([]*CompositePrimaryKey, error) {
 	var res []*CompositePrimaryKey
 	columns := []string{
