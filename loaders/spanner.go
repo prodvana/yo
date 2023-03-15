@@ -32,6 +32,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+const UsePtrInsteadOfNullTypes = true
+
 func NewSpannerLoader(client *spanner.Client) *SpannerLoader {
 	return &SpannerLoader{
 		client: client,
@@ -124,32 +126,52 @@ func SpanParseType(dt string, nullable bool) (int, string, string) {
 		nilVal = "false"
 		typ = "bool"
 		if nullable {
-			nilVal = "spanner.NullBool{}"
-			typ = "spanner.NullBool"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*bool"
+			} else {
+				nilVal = "spanner.NullBool{}"
+				typ = "spanner.NullBool"
+			}
 		}
 
 	case "STRING":
 		nilVal = `""`
 		typ = "string"
 		if nullable {
-			nilVal = "spanner.NullString{}"
-			typ = "spanner.NullString"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*string"
+			} else {
+				nilVal = "spanner.NullString{}"
+				typ = "spanner.NullString"
+			}
 		}
 
 	case "INT64":
 		nilVal = "0"
 		typ = "int64"
 		if nullable {
-			nilVal = "spanner.NullInt64{}"
-			typ = "spanner.NullInt64"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*int64"
+			} else {
+				nilVal = "spanner.NullInt64{}"
+				typ = "spanner.NullInt64"
+			}
 		}
 
 	case "FLOAT64":
 		nilVal = "0.0"
 		typ = "float64"
 		if nullable {
-			nilVal = "spanner.NullFloat64{}"
-			typ = "spanner.NullFloat64"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*float64"
+			} else {
+				nilVal = "spanner.NullFloat64{}"
+				typ = "spanner.NullFloat64"
+			}
 		}
 
 	case "BYTES":
@@ -159,16 +181,26 @@ func SpanParseType(dt string, nullable bool) (int, string, string) {
 		nilVal = "time.Time{}"
 		typ = "time.Time"
 		if nullable {
-			nilVal = "spanner.NullTime{}"
-			typ = "spanner.NullTime"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*time.Time"
+			} else {
+				nilVal = "spanner.NullTime{}"
+				typ = "spanner.NullTime"
+			}
 		}
 
 	case "DATE":
 		nilVal = "civil.Date{}"
 		typ = "civil.Date"
 		if nullable {
-			nilVal = "spanner.NullDate{}"
-			typ = "spanner.NullDate"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*civil.Date"
+			} else {
+				nilVal = "spanner.NullDate{}"
+				typ = "spanner.NullDate"
+			}
 		}
 
 	case "JSON":
@@ -182,8 +214,13 @@ func SpanParseType(dt string, nullable bool) (int, string, string) {
 		nilVal = "big.Rat{}"
 		typ = "big.Rat"
 		if nullable {
-			nilVal = "spanner.NullNumeric{}"
-			typ = "spanner.NullNumeric"
+			if UsePtrInsteadOfNullTypes {
+				nilVal = "nil"
+				typ = "*big.Rat"
+			} else {
+				nilVal = "spanner.NullNumeric{}"
+				typ = "spanner.NullNumeric"
+			}
 		}
 
 	default:

@@ -118,10 +118,12 @@ func (tl *TypeLoader) LoadTable(args *ArgType) (map[string]*Type, error) {
 
 		// create template
 		typeTpl := &Type{
-			Name:   SingularizeIdentifier(tl.inflector, ti.TableName),
-			Schema: "",
-			Fields: []*Field{},
-			Table:  ti,
+			Name:                SingularizeIdentifier(tl.inflector, ti.TableName),
+			Schema:              "",
+			Fields:              []*Field{},
+			ReadableFields:      []*Field{},
+			Table:               ti,
+			HasUnreadableFields: false,
 		}
 
 		// process columns
@@ -132,6 +134,14 @@ func (tl *TypeLoader) LoadTable(args *ArgType) (map[string]*Type, error) {
 
 		if err := tl.loadPrimaryKeys(typeTpl); err != nil {
 			return nil, err
+		}
+
+		for _, field := range typeTpl.Fields {
+			if field.Col.DataType == "JSON" {
+				typeTpl.HasUnreadableFields = true
+				continue
+			}
+			typeTpl.ReadableFields = append(typeTpl.ReadableFields, field)
 		}
 
 		tableMap[ti.TableName] = typeTpl
@@ -334,15 +344,22 @@ func (tl *TypeLoader) buildIndexFuncName(ixTpl *Index) string {
 	funcName = funcName + "By"
 
 	// add param names
+	// PRODVANA MODIFICATION: better naming for indexes with storing clause
 	paramNames := make([]string, 0, len(ixTpl.Fields))
-	for _, f := range ixTpl.StoringFields {
-		paramNames = append(paramNames, f.Name)
-	}
 	for _, f := range ixTpl.Fields {
 		paramNames = append(paramNames, f.Name)
 	}
+	funcName = funcName + strings.Join(paramNames, "")
+	if len(ixTpl.StoringFields) > 0 {
+		paramNames := make([]string, 0, len(ixTpl.StoringFields))
+		for _, f := range ixTpl.StoringFields {
+			paramNames = append(paramNames, f.Name)
+		}
+		funcName = funcName + "Storing" + strings.Join(paramNames, "")
+	}
 
-	return funcName + strings.Join(paramNames, "")
+	return funcName
+	// END PRODVANA MODIFICATION: better naming for indexes with storing clause
 }
 
 // LoadIndexColumns loads the index column information.
