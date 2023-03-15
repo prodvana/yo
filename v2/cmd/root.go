@@ -20,6 +20,7 @@
 package cmd
 
 import (
+	"runtime/debug"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -36,6 +37,8 @@ const (
 `
 )
 
+var version string
+
 var (
 	rootCmd = &cobra.Command{
 		Use:   "yo",
@@ -47,9 +50,23 @@ var (
 		RunE:          nil,
 		SilenceUsage:  true,
 		SilenceErrors: true,
+		Version:       versionInfo(),
 	}
 )
 
 func Execute() error {
 	return rootCmd.Execute()
+}
+
+func versionInfo() string {
+	if version != "" {
+		return version
+	}
+
+	// For those who "go install" yo
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "(devel)"
+	}
+	return info.Main.Version
 }

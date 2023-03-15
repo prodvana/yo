@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"os"
 	pathpkg "path"
+	"runtime/debug"
 	"strings"
 
 	"cloud.google.com/go/spanner"
@@ -43,6 +44,8 @@ const (
   yo $SPANNER_PROJECT_NAME $SPANNER_INSTANCE_NAME $SPANNER_DATABASE_NAME -o models --custom-types-file custom_column_types.yml
 `
 )
+
+var version string
 
 var (
 	rootOpts = internal.ArgType{}
@@ -103,6 +106,7 @@ var (
 		},
 		SilenceUsage:  true,
 		SilenceErrors: true,
+		Version:       versionInfo(),
 	}
 )
 
@@ -226,4 +230,17 @@ func connectSpanner(args *internal.ArgType) (*spanner.Client, error) {
 	}
 
 	return spannerClient, nil
+}
+
+func versionInfo() string {
+	if version != "" {
+		return version
+	}
+
+	// For those who "go install" yo
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "(devel)"
+	}
+	return info.Main.Version
 }
